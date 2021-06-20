@@ -1,6 +1,0 @@
-"/image/inicio/background.jpg" -- 0
-"/image/inicio/menu.png" -- 1
-"/image/inicio/bg-letras1.png" -- 2
-"/image/inicio/bg-letras2.png" -- 3
-"/image/inicio/bg-letras3.png" -- 4
-"/image/inicio/github.png" -- 5 

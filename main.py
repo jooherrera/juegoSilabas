@@ -11,13 +11,17 @@
 import pygame
 import sys
 import menu
+import principal
 from config import *
+
 
 class main:
     def __init__(self,width,height):
         pygame.init()
-        pygame.mixer.music.load('sound/music.mp3')
-        pygame.mixer.music.play(-1)
+        #pygame.mixer.music.load('sound/music.mp3')
+        #pygame.mixer.music.play(-1)
+
+        ##self.screen2.init()
         self.width = width
         self.height = height
         #self.framCrounter = 0
@@ -28,7 +32,7 @@ class main:
         self.Github = pygame.image.load("image/inicio/github.png")
         self.Github = pygame.transform.scale(self.Github, (width, height))
         self.menu = menu.menu(self.width, self.height)
-
+        #self.game = menu.Game(self.width,self.height,self.screen)
         self.bg_letras = pygame.image.load("image/inicio/bg-letras1.png")
         self.bg_letras = pygame.transform.scale(self.bg_letras, (width, height))
         self.pos = 0
@@ -63,10 +67,11 @@ class main:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        self.menu.handelInput(input)
+        self.menu.handelInput(input,self.screen)
 
     def run(self):
         while True:
+
             self.clock.tick(60)
            # self.framCrounter += 1
             self.handleInput()
@@ -74,6 +79,8 @@ class main:
             if self.pos >= self.height:
                 self.pos = 0
             self.pos += 1
+
+
 
 
 run = main(Width, Height)

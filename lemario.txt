@@ -1,0 +1,4 @@
+casa
+perro
+computadora
+tren
