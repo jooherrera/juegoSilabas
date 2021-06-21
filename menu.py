@@ -43,6 +43,8 @@ class Game:
         lemario=[]
         top = []
 
+        coloresSilabas=[]
+
 
         #randomY = 0
 
@@ -61,7 +63,7 @@ class Game:
         lectura(archivo2, lemario)
         archivo2.close()
 
-        dibujar(screen, candidata, silabasEnPantalla, posiciones, puntos,segundos,self.width,self.height)
+        dibujar(screen, candidata, silabasEnPantalla, posiciones, puntos,segundos,self.width,self.height,coloresSilabas)
 
         last = TIEMPO_MAX - 1
 
@@ -95,7 +97,7 @@ class Game:
                         candidata = candidata[0:len(candidata)-1]
                     if e.key == K_RETURN:
 
-                        puntos += procesar(candidata, silabasEnPantalla, posiciones, lemario)
+                        puntos += procesar(candidata, silabasEnPantalla, posiciones, lemario, coloresSilabas)
                         candidata = ""
                         e.key=""
 
@@ -109,17 +111,17 @@ class Game:
             #print(silabasEnPantalla)
 
 
-            dibujar(screen, candidata, silabasEnPantalla, posiciones, puntos, segundos,self.width,self.height)
+            dibujar(screen, candidata, silabasEnPantalla, posiciones, puntos, segundos,self.width,self.height,coloresSilabas)
 
             pygame.display.flip()
 
 
             #actualizar(silabasEnPantalla, posiciones, listaDeSilabas)
 
-            if last > segundos + .4:
+            #if last > segundos + .4:
 
-                actualizar(silabasEnPantalla, posiciones, listaDeSilabas,width,height)
-                last = segundos
+            actualizar(silabasEnPantalla, posiciones, listaDeSilabas,width,height,segundos,coloresSilabas)
+            #last = segundos
 
 
 

@@ -2,7 +2,7 @@ from collections import namedtuple
 
 TAMANNO_LETRA = 20
 FPS_inicial = 3
-TIEMPO_MAX = 20#61
+TIEMPO_MAX = 61#61
 
 ANCHO = 800
 ALTO = 600

@@ -66,7 +66,7 @@ def dameLetraApretada(key):
 ##    ren = defaultFont.render(palabra, 1, color)
 ##    screen.blit(ren, posicion)
 
-def dibujar(screen, candidata, listaNombres, posiciones, puntos, segundos,width,height):
+def dibujar(screen, candidata, listaNombres, posiciones, puntos, segundos,width,height,coloresSilabas):
 
     defaultFont= pygame.font.Font( pygame.font.get_default_font(), TAMANNO_LETRA)
 
@@ -82,7 +82,7 @@ def dibujar(screen, candidata, listaNombres, posiciones, puntos, segundos,width,
         ren3 = defaultFont.render("Tiempo: " + str(int(segundos)), 1, COLOR_TEXTO)
 
     for i in range(len(listaNombres)):
-        screen.blit(defaultFont.render(listaNombres[i], 1, COLOR_LETRAS), posiciones[i])
+        screen.blit(defaultFont.render(listaNombres[i], 1, coloresSilabas[i]), posiciones[i])
 
     screen.blit(ren1, (floor(23.75*width/100), floor(92*height/100)))#190-570
     screen.blit(ren2, (floor(80*width/100), floor(1.67*height/100)))#680-10

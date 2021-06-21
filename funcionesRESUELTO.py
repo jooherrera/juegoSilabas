@@ -13,7 +13,6 @@ def lectura(archivo, lista):
     for linea in lineas:
         lista.append(linea.strip())
 
-    return lista
 def lectura2(archivo, lista):
     lineas= archivo.readlines()
     for linea in lineas:
@@ -22,30 +21,53 @@ def lectura2(archivo, lista):
     return lista
 
 #Actualiza la pantalla.
-def actualizar(silabasEnPantalla,posiciones,listaDeSilabas,width,height):
+def actualizar(silabasEnPantalla,posiciones,listaDeSilabas,width,height,segundos,coloresSilabas):
     randomX = random.randint(70,width-70) #Numero aleatorio para la posicion X.
-    randomY = -50  #Numero para la posicion Y.
+    randomY = 0  #Numero para la posicion Y.
+    i = 0
 
-    posiciones.append([randomX,randomY]) #Agrega las posiciones (x,y) en un array.
-    addSilaba = nuevaSilaba(listaDeSilabas) #Busca una silaba al azar.
-    silabasEnPantalla.append(addSilaba) #Agrega la silaba del azar a un array.
 
-    listaParaEliminar = [] #Array nuevo donde se guardan las posiciones de los elementos a eliminar.
-    for i in range(0,len(posiciones)):
-        posY = posiciones[i][1] #Guarda la posicion en Y de los elementos en pantalla.
-        posiciones[i] = [posiciones[i][0],posiciones[i][1] + 25] #Actualiza la posicion en  Y de los elementos en pantalla.
-
-        if posY > floor(80*height/100):  #Comprueba que la posicion Y del elemento es mayor a 500. 480
-            listaParaEliminar.append(i) #Se agrega al array la ubicacion original del elemento a eliminar.
+    if (segundos <  15):
+        velocidad = .5
+    else:
+        velocidad = 1
 
 
 
-    for posicionParaEliminar in listaParaEliminar: #Buscar todos los elementos a eliminar.
-        print(posicionParaEliminar)
 
-        quitar(posicionParaEliminar,silabasEnPantalla,posiciones) #Quita elementos y actualiza los arrays.
+    if silabasEnPantalla == []:
+        posiciones.append([randomX,randomY]) #Agrega las posiciones (x,y) en un array.
+        addSilaba = nuevaSilaba(listaDeSilabas) #Busca una silaba al azar.
+        silabasEnPantalla.append(addSilaba) #Agrega la silaba del azar a un array quitandole los espacios.
+        coloresSilabas.append([random.randint(0,255),random.randint(0,255),random.randint(0,255)])
+    else:
+        posYY= posiciones[len(silabasEnPantalla)-1][1]
+        print(posYY)
 
-    #return silabasEnPantalla,posiciones #Retorna las silabas en pantalla y sus posiciones.
+        if posYY > 22  :
+            posiciones.append([randomX,randomY]) #Agrega las posiciones (x,y) en un array.
+            addSilaba = nuevaSilaba(listaDeSilabas) #Busca una silaba al azar.
+            silabasEnPantalla.append(addSilaba) #Agrega la silaba del azar a un array quitandole los espacios.
+            coloresSilabas.append([random.randint(0,255),random.randint(0,255),random.randint(0,255)])
+        else:
+
+
+            while (i < len(silabasEnPantalla)):
+                posY = posiciones[i][1] #Guarda la posicion en Y de los elementos en pantalla.
+                posiciones[i] = [posiciones[i][0],posiciones[i][1] + velocidad] #Actualiza la posicion en  Y de los elementos en pantalla.
+
+                if posY > floor(85.5*height/100):  #Comprueba que la posicion Y del elemento es mayor a 500.
+                    silabasEnPantalla.pop(0) #Elimila del array la silaba que se esta mostrando.
+                    posiciones.pop(0) #Elimina del array la posicion de la silaba.
+                    coloresSilabas.pop(0)
+                    #elif posiciones[len(posiciones)-1][1] > 100:
+        #        if posiciones[len(silabasEnPantalla)-1][1] > 120:
+                else:
+                    i = i +1 #aumenta contador para el ciclo while
+
+
+
+
 
 #Retorna una silaba al azar, del array de silabas.
 def nuevaSilaba(silabas):
@@ -53,11 +75,12 @@ def nuevaSilaba(silabas):
     return silabas[random.randrange(len(silabas))] #Random de 0 a logitud del array.
 
 #Elimina la silaba de la pantalla
-def quitar(candidata, silabasEnPantalla, posiciones):
+def quitar(candidata, silabasEnPantalla, posiciones,coloresSilabas):
     print(candidata)
     silabasEnPantalla.pop(candidata) #Elimila del array la silaba que se esta mostrando.
 
     posiciones.pop(candidata) #Elimina del array la posicion de la silaba.
+    coloresSilabas.pop(candidata)
     #return silabasEnPantalla,posiciones #Retorna los arrays actualizados.
 
 #Retorna una palabra separada en silabas.
@@ -65,20 +88,15 @@ def dameSilabas(candidata):
     return separador(candidata)
 
 #Retorna TRUE si la palabra separada en silabas esta en la pantalla y se encuentra en el lemario.
-def esValida(candidata, silabasEnPantalla, lemario,posiciones):
+def esValida(candidata, silabasEnPantalla, lemario,posiciones,coloresSilabas):
 
     palabraEnSilabas = ""
     palabraEnSilabas = dameSilabas(candidata) #Se guarda la palabra separada en silabas.
     nuevaPalabra = arrayPalabraSeparada(palabraEnSilabas) #Se guarda las silabas separadas en un array.
-    palabraArmada = ""
-    listaParaEliminar = [] #Array para guardar las posiciones de las silabas encontradas.
 
     if (estaEnPantalla(nuevaPalabra,silabasEnPantalla)): #Busca si esta en pantalla las silabas.
         if (comprobarLemario(candidata,lemario)): #Comprueba que la palabra esté en el lemario.
-            #listaParaEliminar = armarArrayParaEliminar(nuevaPalabra,silabasEnPantalla) #Busca las posiciones de las silabas y las guarda en un array.
-            armarArrayParaEliminar(nuevaPalabra,silabasEnPantalla,listaParaEliminar) #Busca las posiciones de las silabas y las guarda en un array.
-            for element in listaParaEliminar: #Busca todos los elementos a eliminar.
-                quitar(element,silabasEnPantalla,posiciones) #Quita elementos y actualiza los arrays.
+            silabasAEliminar(nuevaPalabra,silabasEnPantalla,posiciones,coloresSilabas) #Busca las posiciones de las silabas y las guarda en un array.
             return True
         else:
             return False
@@ -87,26 +105,26 @@ def esValida(candidata, silabasEnPantalla, lemario,posiciones):
 
 #Retorna un valor dependiendo de las letras de la palabra.
 def Puntos(candidata):
-    vocales = "aeiou" #Se guardan las vocales.
-    comunes = "bcdfghlmnñprstv" #Se guardan las consonantes comunes.
-    dificiles = "jkqwxyz" #Se guardan las consonantes dificiles.
     puntos = 0 #Se inicializa la variable a retornar.
+    vocales = "aeiou" #Se guardan las vocales.
+    dificiles = "jkqwxyz" #Se guardan las consonantes dificiles.
+
 
     for letra in candidata: #Busca letra por letra en la palabra.
         if letra in vocales: #Si la letra es una vocal.
             puntos = puntos + 1 #Suma un punto.
-        elif letra in dificiles: #Si la letra es una consonante común.
+        elif letra in dificiles: #Si la letra es una consonante difícil.
             puntos = puntos + 5 #Suma dos puntos.
-        else: #Si la letra es una consonante dificil.
-            puntos = puntos +2 #Suma tres puntos.
-    return puntos #Retorna el puntaje obtenido.
+        else:
+            puntos = puntos + 2 #Suma tres puntos.
+    return (puntos) #Retorna el puntaje obtenido.
 
 #Recibe la palabra escrita por el usuario y devuelve un puntaje.
-def procesar(candidata, silabasEnPantalla, posiciones, lemario):
+def procesar(candidata, silabasEnPantalla, posiciones, lemario, coloresSilabas):
 
-    if (esValida(candidata,silabasEnPantalla,lemario,posiciones)): #Si en la pantalla estan todas las silabas de la palabra y esta en el lemario.
+    if (esValida(candidata,silabasEnPantalla,lemario,posiciones, coloresSilabas)): #Si en la pantalla estan todas las silabas de la palabra y esta en el lemario.
         print("EsValida")
-        return int(Puntos(candidata)) #Retorna un puntaje.
+        return Puntos(candidata)#Retorna un puntaje.
     else:
         print("No existe")
         return 0 #Si no lo encuentra retorna de puntaje 0
@@ -152,9 +170,12 @@ def comprobarLemario(candidata,lemario):
         return False
 
 #Retorna un array con las posiciones para eliminar.
-def armarArrayParaEliminar(nuevaPalabra, silabasEnPantalla, listaParaEliminar):
+def silabasAEliminar(nuevaPalabra, silabasEnPantalla, posiciones,coloresSilabas):
     #listaParaEliminar = [] #Inicializa una lista para guardar las posiciones (En el array) que tienen las silabas que estan en la pantalla
     for elemento in nuevaPalabra: #Comprueba los elementos del array
-       if elemento in silabasEnPantalla: #Si encuentra el elemento en el array que esta mostrando la pantalla.
-            listaParaEliminar.append(silabasEnPantalla.index(elemento)) #Agrega la posicion que tiene en la lista para despues eliminarlo.
+        print("Elemento para eliminar",elemento)
+        if elemento in silabasEnPantalla: #Si encuentra el elemento en el array que esta mostrando la pantalla.
+            quitar(silabasEnPantalla.index(elemento),silabasEnPantalla,posiciones,coloresSilabas) #Agrega la posicion que tiene en la lista para despues eliminarlo.
     #return listaParaEliminar #Retorna el array.
+
+
