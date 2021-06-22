@@ -238,14 +238,14 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
                     self.nombre = True
                     event.key =""
                 if event.key == pygame.K_RETURN and self.player.y == floor(42.1*self.height/100): # Options
-                    print("Options")
+
                     self.menuTitle = "opciones"
                     self.menuPrincipal = self.menuOpcionesIMG
                     self.player.x = floor(29*self.height/100)
                     self.player.y = floor(37*self.height/100)
                     event.key =""
                 if event.key == pygame.K_RETURN and self.player.y == floor(52.4*self.height/100): # Credits
-                    print("Credits")
+
                     self.menuTitle = "creditos"
                     self.menuPrincipal = self.menuCreditsIMG
                     self.player.y = floor(71*self.height/100)
@@ -254,7 +254,7 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
                     self.quiereSalir = True
 
             if self.menuTitle == "play" and self.quiereSalir == False:
-                    print("NOMBRE")
+
                     self.menuTitle = "nombre"
                     self.menuPrincipal = self.menuNombreIMG
                     self.player.y = floor(49*self.height/100)
@@ -297,7 +297,6 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
 
                 if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN :
                     pygame.mixer.music.play(-1) #Reproduce la musica infinitas veces.
-                    print("principal")
                     self.principal = True
                     self.puntaje = False
                     self.menuTitle = "principal"
@@ -306,7 +305,7 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
                     self.player.y = floor(31.9*self.height/100)
 
             if event.type == pygame.KEYDOWN and self.menuTitle == "opciones" and self.quiereSalir == False:
-                print("Y",self.player.y)
+
                 if event.key == pygame.K_ESCAPE:
                     self.menuPrincipal = self.menuIMG
                     self.menuTitle = "principal"
