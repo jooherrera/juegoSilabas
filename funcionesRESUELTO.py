@@ -1,10 +1,7 @@
-#from principal import *
 from configuracion import *
 from funcionesSeparador import *
 import random
 import math
-
-
 
 #Retorna un array con las silabas/palabras que esten dentro del archivo.
 def lectura(archivo, lista):
@@ -13,21 +10,16 @@ def lectura(archivo, lista):
         if len(linea.strip()) >= LONG_MIN: #Solo agrega las sílabas dependiendo de la longitud que se le paso en la configuración.
             lista.append(linea.strip())#Agrega a lista todas las lineas del archivo que cumplen la condicion de longitud. .strip() borra los espacios en blanco antes y despues. se le agrega por que imprimia en pantalla \n
 
-
 #Actualiza la pantalla.
 def actualizar(silabasEnPantalla,posiciones,listaDeSilabas,width,height,segundos,coloresSilabas):
     randomX = random.randint(70,width-70) #Numero aleatorio para la posicion X.
     randomY = 0  #Numero para la posicion Y.
     i = 0 #Inicializa contador para el ciclo while.
 
-
     if (segundos <  15): # Si los segundos es menor a 15
         velocidad = .5 # Si es True - la velocidad con la que bajan las silabas es .5
     else:
         velocidad = 1   # Si es False - la velocidad con la que bajan las silabas es 1
-
-
-
 
     if silabasEnPantalla == []:  #### Esto se ejecuta una vez.. por que silabas en pantalla empieza vacia.
         posiciones.append([randomX,randomY]) #Agrega las posiciones (x,y) en un array.
@@ -43,8 +35,6 @@ def actualizar(silabasEnPantalla,posiciones,listaDeSilabas,width,height,segundos
             silabasEnPantalla.append(addSilaba) #Agrega la silaba del azar a un array quitandole los espacios.
             coloresSilabas.append([random.randint(0,255),random.randint(0,255),random.randint(0,255)])#Agrega un color al azar a un array.
         else:# Si la ultima silaba no supero los 22..
-
-
             while (i < len(silabasEnPantalla)):
                 posY = posiciones[i][1] #Guarda la posicion en Y de los elementos en pantalla.
                 posiciones[i] = [posiciones[i][0],posiciones[i][1] + velocidad] #Actualiza la posicion en  Y de los elementos en pantalla.
@@ -55,10 +45,6 @@ def actualizar(silabasEnPantalla,posiciones,listaDeSilabas,width,height,segundos
                                                                             #de limite para que se empiezen a borrar.
                 else:
                     i = i +1 #aumenta contador para el ciclo while
-
-
-
-
 
 #Retorna una silaba al azar, del array de silabas.
 def nuevaSilaba(silabas):
@@ -71,7 +57,6 @@ def quitar(candidata, silabasEnPantalla, posiciones,coloresSilabas):
     silabasEnPantalla.pop(candidata) #Elimila del array la silaba que se esta mostrando.
     posiciones.pop(candidata) #Elimina del array la posicion de la silaba.
     coloresSilabas.pop(candidata)#Elimina del array el color de la silaba.
-
 
 #Retorna una palabra separada en silabas.
 def dameSilabas(candidata):
@@ -98,7 +83,6 @@ def Puntos(candidata):
     puntos = 0 #Se inicializa la variable a retornar.
     vocales = "aeiou" #Se guardan las vocales.
     dificiles = "jkqwxyz" #Se guardan las consonantes dificiles.
-
 
     for letra in candidata: #Busca letra por letra en la palabra.
         if letra in vocales: #Si la letra es una vocal.
@@ -174,5 +158,3 @@ def silabasAEliminar(nuevaPalabra, silabasEnPantalla, posiciones,coloresSilabas)
     for elemento in nuevaPalabra: #Comprueba los elementos del array
         if elemento in silabasEnPantalla: #Si encuentra el elemento en el array que esta mostrando la pantalla.
             quitar(silabasEnPantalla.index(elemento),silabasEnPantalla,posiciones,coloresSilabas) #Agrega la posicion que tiene en la lista para despues eliminarlo.
-
-

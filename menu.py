@@ -1,9 +1,4 @@
 import pygame
-#from math import floor
-#import sys
-#from config import *
-#import os
-
 import os, random, sys, math
 from pygame.locals import *
 from configuracion import *
@@ -11,7 +6,6 @@ from extras import *
 from funcionesSeparador import *
 from funcionesRESUELTO import *
 from collections import OrderedDict
-
 
 class Sound: # Objeto que tiene el metodo para reproducir los sonidos.
     def __init__(self):
@@ -21,8 +15,6 @@ class Sound: # Objeto que tiene el metodo para reproducir los sonidos.
     def play(self,nombre):
         archivo = "sound/"+ nombre + ".mp3"
         pygame.mixer.Sound(archivo).play()
-
-
 
 class Game: #Objeto Game.. Contiene el juego.
     def __init__(self, width, height,screen,listaJugadoresPuntaje,nombre):
@@ -94,8 +86,6 @@ class Game: #Objeto Game.. Contiene el juego.
                             e.key=""
                         else:
                             return None
-
-
 
             segundos = inicio + TIEMPO_MAX - pygame.time.get_ticks()/1000
 
@@ -179,9 +169,6 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
         self.puntaje = False
         self.puntos = []
 
-
-
-
     def draw(self, screen):
 
         if (self.principal):
@@ -194,9 +181,7 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
         if(self.puntaje):
             screen.blit(self.menuPrincipal,(0,0))
             self.puntos = sorted(self.listaJugadoresPuntaje, key=lambda x: x[0],reverse=True)
-            #print(self.puntos)
             for cantJugadores in range(len(self.puntos)):
-##
                 if cantJugadores < 3 :
 ##                  #PUNTAJE
                     self.ren1 = self.defaultFont.render(str(self.puntos[cantJugadores][0]), 1, (0,0,0))
@@ -204,34 +189,20 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
 
                     #NOMBRE
                     self.ren1 = self.defaultFont.render(str(self.puntos[cantJugadores][1]), 1, (0,0,0))
-
                     screen.blit(self.ren1,(floor(16*self.width/100),floor(35.15*self.height/100) + floor((cantJugadores *10 ) *self.height/100)))
 
-##                #print()
-
-
-
             screen.blit(self.flechaIMG,self.player)
-        # pygame.draw.rect(screen, (255, 255, 255), self.player,1)
 
         if (self.quiereSalir):
             screen.blit(self.menuSalirIMG,(0,0))
             screen.blit(self.flechaUpIMG,self.playerUp)
 
 
-
-        #screen = pygame.display.set_mode((self.width, self.height))
-
-
     def handelInput(self, input,screen):
         self.mousePos = pygame.mouse.get_pos()
         self.xx= ""
 
-
         for event in input:
-
-
-
             if event.type == pygame.KEYDOWN and self.quiereSalir == True:
                 if event.key == pygame.K_LEFT and  self.playerUp.x > floor(25*self.width/100) :
                     self.click_sound.play()
@@ -250,9 +221,6 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
                     event.key = ""
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                #print("Circle",self.circle)
-                #print("mousePos",self.mousePos)
-                #print(self.circle)
                 if (self.circle.collidepoint(self.mousePos)) :
                     os.system("start \"\" https://github.com/jooherrera/juegoSilabas")
 
@@ -276,34 +244,14 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
                     self.player.x = floor(29*self.height/100)
                     self.player.y = floor(37*self.height/100)
                     event.key =""
-                elif event.key == pygame.K_RETURN and self.player.y == floor(42.1*self.height/100)+1: # Options
-                    print("Options 800*600")
-                    self.menuTitle = "opciones"
-                    self.menuPrincipal = self.menuOpcionesIMG
-                    self.player.x = floor(29*self.height/100)
-                    self.player.y = floor(37*self.height/100)
-                    event.key =""
-
                 if event.key == pygame.K_RETURN and self.player.y == floor(52.4*self.height/100): # Credits
                     print("Credits")
                     self.menuTitle = "creditos"
                     self.menuPrincipal = self.menuCreditsIMG
                     self.player.y = floor(71*self.height/100)
                     event.key =""
-                elif event.key == pygame.K_RETURN and self.player.y == floor(52.4*self.height/100)+1: # Credits
-                    print("Credits")
-                    self.menuTitle = "creditos"
-                    self.menuPrincipal = self.menuCreditsIMG
-                    self.player.y = floor(71*self.height/100)
-                    event.key =""
-
-
-
                 if event.key == pygame.K_RETURN and self.player.y == floor(62.7*self.height/100): # EXIT
-                    #pygame.quit()
-                    #sys.exit()
                     self.quiereSalir = True
-
 
             if self.menuTitle == "play" and self.quiereSalir == False:
                     print("NOMBRE")
@@ -339,16 +287,11 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
                     self.menuTitle = "top3"
                     self.player.x = floor(33*self.width/100)
                     self.player.y = floor(83*self.height/100)
-                    #print(self.listaJugadores)
                 if event.type == pygame.KEYDOWN:
                     letra = dameLetraApretada(event.key)
                     self.candidata += letra
-                    #print(self.candidata)
                     if event.key == K_BACKSPACE:
                         self.candidata = self.candidata[0:len(self.candidata)-1]
-                    #ren1 = defaultFont.render(self.candidata, 1, (0,0,0))
-                    #screen.blit(ren1, (floor(23.75*self.width/100), floor(92*self.height/100)))#190-570
-                    #screen.blit(ren1, (0,0))#190-570
 
             if event.type == pygame.KEYDOWN and self.menuTitle == "top3" and self.quiereSalir == False :
 
@@ -362,7 +305,6 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
                     self.player.x = floor(29*self.width/100)
                     self.player.y = floor(31.9*self.height/100)
 
-
             if event.type == pygame.KEYDOWN and self.menuTitle == "opciones" and self.quiereSalir == False:
                 print("Y",self.player.y)
                 if event.key == pygame.K_ESCAPE:
@@ -372,71 +314,27 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
                     self.player.y = floor(42.1*self.height/100)
                 if event.key == pygame.K_DOWN and self.player.y != floor(67.9*self.height/100): #67.9
                     self.click_sound.play()
-
-                    print("dsaads",floor(67.9*self.height/100))
-                    print("dsaads",floor(67.9*self.height/100)+1)
                     self.player.y += floor(10.41*self.height/100)
                 if event.key == pygame.K_UP and self.player.y != floor(37*self.height/100):
                     self.click_sound.play()
                     self.player.y -= floor(10.41*self.height/100)
                 if event.key == pygame.K_RETURN and self.player.y == floor(37*self.height/100): #600*400
-
                     self.width = 600
                     self.height = 400
                     self.GITHUBcollider = (floor(91.4*self.width/100),floor(89.5*self.height/100))
                     self.GITHUBcolliderW_H = (floor(6*self.width/100),floor(7.8*self.height/100))
                     self.circle = pygame.Rect(self.GITHUBcollider,self.GITHUBcolliderW_H)
-
-                    #pygame.display.set_mode((600, 400))
                     pygame.display.quit()
-
                 if event.key == pygame.K_RETURN and self.player.y == floor(47.3*self.height/100): #800*600
-
                     self.width = 824
-                    self.height = 601
-
-                    #pygame.display.set_mode((600, 400))
-                    pygame.display.quit()
-                elif event.key == pygame.K_RETURN and self.player.y == floor(47.3*self.height/100) +1: #800*600 x2
-
-                    self.width = 824
-                    self.height = 601
-
-                    #pygame.display.set_mode((600, 400))
+                    self.height = 614
                     pygame.display.quit()
                 if event.key == pygame.K_RETURN and self.player.y == floor(57.6*self.height/100): #1024*768
-
                     self.width = 1024
                     self.height = 768
-
-                    #pygame.display.set_mode((600, 400))
                     pygame.display.quit()
-                elif event.key == pygame.K_RETURN and self.player.y == floor(57.6*self.height/100)+1: #1024*768
-
-                    self.width = 1024
-                    self.height = 768
-
-                    #pygame.display.set_mode((600, 400))
-                    pygame.display.quit()
-
                 if event.key == pygame.K_RETURN and self.player.y == floor(67.9*self.height/100): # EXIT
                     self.menuPrincipal = self.menuIMG
                     self.menuTitle = "principal"
                     self.player.x = floor(29*self.width/100)
                     self.player.y = floor(42.1*self.height/100)
-                elif event.key == pygame.K_RETURN and self.player.y == floor(67.9*self.height/100) +1 : # EXIT
-                    self.menuPrincipal = self.menuIMG
-                    self.menuTitle = "principal"
-                    self.player.x = floor(29*self.width/100)
-                    self.player.y = floor(42.1*self.height/100)
-
-
-
-
-
-
-
-
-       #print(self.playerUp.x)
-        #print( floor(69*self.width/100))
-        pass

@@ -16,7 +16,6 @@ RED = (255,0,0) #Color Rojo
 BLUE= (0,0,255) #Color Azul
 LONG_MIN = 2 # Longitud minima de la silaba para cargar en la lista.
 
-
 Width = 1024 # Ancho por default
 Height = 768 # Alto por default
 
