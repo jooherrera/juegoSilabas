@@ -11,7 +11,6 @@ class Sound: # Objeto que tiene el metodo para reproducir los sonidos.
     def __init__(self):
         pass
 
-
     def play(self,nombre):
         archivo = "sound/"+ nombre + ".mp3"
         pygame.mixer.Sound(archivo).play()
@@ -21,7 +20,6 @@ class Game: #Objeto Game.. Contiene el juego.
         reproducirSonido = Sound() #Instancia el objeto Sonido
         self.width = width
         self.height = height
-        name = ""
         self.screen = screen
 
         gameClock = pygame.time.Clock()
@@ -35,7 +33,6 @@ class Game: #Objeto Game.. Contiene el juego.
         posiciones=[]
         listaDeSilabas=[]
         lemario=[]
-
         coloresSilabas=[]
 
         archivo= open("silabas.txt","r")
@@ -49,7 +46,6 @@ class Game: #Objeto Game.. Contiene el juego.
 
         dibujar(screen, candidata, silabasEnPantalla, posiciones, puntos,segundos,self.width,self.height,coloresSilabas)
 
-        last = TIEMPO_MAX - 1
         inicio = pygame.time.get_ticks()/1000
 
         while segundos > fps/1000:
@@ -58,7 +54,7 @@ class Game: #Objeto Game.. Contiene el juego.
             totaltime += gameClock.get_time()
 
             if True:
-            	fps = 50
+            	fps = 60
 
             #Buscar la tecla apretada del modulo de eventos de pygame
             for e in pygame.event.get():
@@ -67,7 +63,6 @@ class Game: #Objeto Game.. Contiene el juego.
                 if e.type == QUIT:
                     pygame.quit()
                     sys.exit()
-                    #return()
 
                 #Ver si fue apretada alguna tecla
                 if e.type == KEYDOWN:
@@ -79,13 +74,12 @@ class Game: #Objeto Game.. Contiene el juego.
 
 
                         resp =  procesar(candidata, silabasEnPantalla, posiciones, lemario, coloresSilabas,reproducirSonido)
-                        #puntos += procesar(candidata, silabasEnPantalla, posiciones, lemario, coloresSilabas,reproducirSonido)
-                        if resp != None:
+                        if resp != None: #Si el usuario nunca escribe exit.
                             puntos += resp
                             candidata = ""
                             e.key=""
-                        else:
-                            return None
+                        else: #sino
+                            return None #Si escribio exit... sale y vueelve al menú.
 
             segundos = inicio + TIEMPO_MAX - pygame.time.get_ticks()/1000
 
@@ -95,19 +89,19 @@ class Game: #Objeto Game.. Contiene el juego.
             #Dibujar de nuevo todo
             dibujar(screen, candidata, silabasEnPantalla, posiciones, puntos, segundos,self.width,self.height,coloresSilabas)
             pygame.display.flip()
-
             actualizar(silabasEnPantalla, posiciones, listaDeSilabas,width,height,segundos,coloresSilabas)
 
-        listaJugadoresPuntaje.append((puntos,nombre))
-        return None
+        listaJugadoresPuntaje.append((puntos,nombre)) #Agrega a la lista de los mejores puntajes al jugador con su puntaje.. si nunca apreto exit.
+        return None #Cuando termina el juego. regresa al menu.
 
-        while 1:
+        while 1:  #Esto es para que pueda apretar la X de la ventana.
             for e in pygame.event.get():
                 if e.type == QUIT:
                     pygame.quit()
                     sys.exit()
 
 class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
+            #Inicializa todas las imagenes que tiene el menu. Las listas vacias que va a usar.. y algunas variables más.
 
     def __init__(self, width, height):
         self.listaJugadores = []
@@ -169,10 +163,9 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
         self.puntaje = False
         self.puntos = []
 
-    def draw(self, screen):
+    def draw(self, screen): # Funcion para pintar la pantalla con imagenes y datos.
 
         if (self.principal):
-
             screen.blit(self.menuPrincipal,(0,0))
             self.ren1 = self.defaultFont.render(self.candidata, 1, (0,0,0))
             screen.blit(self.ren1,(floor(27*self.width/100),floor(24.8*self.height/100)))
@@ -180,7 +173,7 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
 
         if(self.puntaje):
             screen.blit(self.menuPrincipal,(0,0))
-            self.puntos = sorted(self.listaJugadoresPuntaje, key=lambda x: x[0],reverse=True)
+            self.puntos = sorted(self.listaJugadoresPuntaje, key=lambda x: x[0],reverse=True) #Acomoda la lista de puntajes de mayor a menor.
             for cantJugadores in range(len(self.puntos)):
                 if cantJugadores < 3 :
 ##                  #PUNTAJE
@@ -198,7 +191,7 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
             screen.blit(self.flechaUpIMG,self.playerUp)
 
 
-    def handelInput(self, input,screen):
+    def handelInput(self, input,screen): #Funcion para detectar los eventos de las teclas.
         self.mousePos = pygame.mouse.get_pos()
         self.xx= ""
 

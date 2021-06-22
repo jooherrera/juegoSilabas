@@ -11,10 +11,9 @@
 import pygame
 import sys
 import menu
-#import principal
 from configuracion import *
 
-class main:
+class main: #Objeto Principal.
     def __init__(self,width,height):
         pygame.init()
         pygame.mixer.music.load('sound/music.mp3') # Carga la musica de la pantalla inicial.
@@ -58,14 +57,11 @@ class main:
         while True:
 
             self.clock.tick(60)
-           # self.framCrounter += 1
             self.handleInput()
             self.draw()
             if self.pos >= self.height:
                 self.pos = 0
             self.pos += 1
-
-
 
 
 run = main(Width, Height)
