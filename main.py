@@ -16,7 +16,7 @@ from configuracion import *
 class main: #Objeto Principal.
     def __init__(self,width,height):
         pygame.init()
-        pygame.mixer.music.load('sound/music.mp3') # Carga la musica de la pantalla inicial.
+        pygame.mixer.music.load('sound/music.wav') # Carga la musica de la pantalla inicial.
         pygame.mixer.music.play(-1) #Reproduce la musica infinitas veces.
         pygame.display.set_caption("Sí-la-bas...") #Titulo de la ventana.
         self.width = width

@@ -12,7 +12,7 @@ class Sound: # Objeto que tiene el metodo para reproducir los sonidos.
         pass
 
     def play(self,nombre):
-        archivo = "sound/"+ nombre + ".mp3"
+        archivo = "sound/"+ nombre + ".wav"
         pygame.mixer.Sound(archivo).play()
 
 class Game: #Objeto Game.. Contiene el juego.
@@ -116,7 +116,7 @@ class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
         self.menuPrincipal = self.menuIMG
         self.menuPrincipal = pygame.transform.scale(self.menuPrincipal,(self.width,self.height))
 
-        self.click_sound = pygame.mixer.Sound("sound/click.mp3")
+        self.click_sound = pygame.mixer.Sound("sound/click.wav")
         self.flechaIMG = pygame.image.load("image/inicio/arrow.png")
         self.menuTitle = "principal"
         #self.flechaIMG = pygame.transform.scale(self.flechaIMG, (floor(6.9*self.width/100),floor(6.7*self.width/100)))
