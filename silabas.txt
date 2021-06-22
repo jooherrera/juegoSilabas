@@ -1,2 +1,7 @@
 ca
 sa
+com
+pu
+ta
+do
+ra

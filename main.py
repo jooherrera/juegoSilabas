@@ -11,37 +11,27 @@
 import pygame
 import sys
 import menu
-import principal
-from config import *
-
+#import principal
+from configuracion import *
 
 class main:
     def __init__(self,width,height):
         pygame.init()
-        #pygame.mixer.music.load('sound/music.mp3')
-        #pygame.mixer.music.play(-1)
-
-        ##self.screen2.init()
+        pygame.mixer.music.load('sound/music.mp3') # Carga la musica de la pantalla inicial.
+        pygame.mixer.music.play(-1) #Reproduce la musica infinitas veces.
+        pygame.display.set_caption("Sí-la-bas...") #Titulo de la ventana.
         self.width = width
         self.height = height
-        #self.framCrounter = 0
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((width, height))
-        self.BackGround = pygame.image.load("image/inicio/background.jpg")
+        self.BackGround = pygame.image.load("image/inicio/background.jpg") # Carga imagen de fondo de la pantalla inicial.
         self.BackGround = pygame.transform.scale(self.BackGround, (width, height))
-        self.Github = pygame.image.load("image/inicio/github.png")
+        self.Github = pygame.image.load("image/inicio/github.png") # Carga imagen de GITHUB
         self.Github = pygame.transform.scale(self.Github, (width, height))
-        self.menu = menu.menu(self.width, self.height)
-        #self.game = menu.Game(self.width,self.height,self.screen)
-        self.bg_letras = pygame.image.load("image/inicio/bg-letras1.png")
+        self.menu = menu.menu(self.width, self.height) #Instancia al objeto MENU.
+        self.bg_letras = pygame.image.load("image/inicio/bg-letras1.png") # Carga imagen de las letras en la pantalla de inicio.
         self.bg_letras = pygame.transform.scale(self.bg_letras, (width, height))
         self.pos = 0
-        #mousePos = (pygame.mouse.get_pos())
-    #    self.circle = pygame.Rect(GITHUBcollider,GITHUBcolliderW_H)
-
-
-    pass
-
 
     def draw(self):
         if not (pygame.display.get_init()):
@@ -54,11 +44,6 @@ class main:
         self.screen.blit(self.bg_letras,(0,self.pos - self.height))
         self.screen.blit(self.Github, (0, 0))
         self.menu.draw(self.screen)
-        #circle2 = pygame.draw.rect(self.screen,(255,0,0),(GITHUBcollider,GITHUBcolliderW_H))
-
-        #self.player.drawBullets(self.screen)
-        #self.player.draw(self.screen)
-        #self.drawAlien()
         pygame.display.flip()
 
     def handleInput(self):
@@ -84,5 +69,4 @@ class main:
 
 
 run = main(Width, Height)
-#run = main(600, 400)
 run.run()

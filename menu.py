@@ -1,7 +1,7 @@
 import pygame
 #from math import floor
 #import sys
-from config import *
+#from config import *
 #import os
 
 import os, random, sys, math
@@ -13,22 +13,24 @@ from funcionesRESUELTO import *
 from collections import OrderedDict
 
 
+class Sound: # Objeto que tiene el metodo para reproducir los sonidos.
+    def __init__(self):
+        pass
 
-class Game:
+
+    def play(self,nombre):
+        archivo = "sound/"+ nombre + ".mp3"
+        pygame.mixer.Sound(archivo).play()
+
+
+
+class Game: #Objeto Game.. Contiene el juego.
     def __init__(self, width, height,screen,listaJugadoresPuntaje,nombre):
-
+        reproducirSonido = Sound() #Instancia el objeto Sonido
         self.width = width
         self.height = height
-        #Centrar la ventana y despues inicializar pygame
-        #os.environ["SDL_VIDEO_CENTERED"] = "1"
-        #pygame.init()
-        #pygame.mixer.init()
         name = ""
-        #Preparar la ventana
-        #pygame.display.set_caption("Rapido...")
-        #screen = screen
         self.screen = screen
-        #tiempo total del juego
 
         gameClock = pygame.time.Clock()
         totaltime = 0
@@ -41,18 +43,8 @@ class Game:
         posiciones=[]
         listaDeSilabas=[]
         lemario=[]
-        top = []
 
         coloresSilabas=[]
-
-
-        #randomY = 0
-
-
-        archivo3= open("top.txt","r")
-        lectura2(archivo3, top)
-        archivo3.close()
-
 
         archivo= open("silabas.txt","r")
         lectura(archivo, listaDeSilabas)
@@ -66,13 +58,9 @@ class Game:
         dibujar(screen, candidata, silabasEnPantalla, posiciones, puntos,segundos,self.width,self.height,coloresSilabas)
 
         last = TIEMPO_MAX - 1
-
         inicio = pygame.time.get_ticks()/1000
 
-
         while segundos > fps/1000:
-
-
         # 1 frame cada 1/fps segundos
             gameClock.tick(fps)
             totaltime += gameClock.get_time()
@@ -95,65 +83,41 @@ class Game:
                     candidata += letra
                     if e.key == K_BACKSPACE:
                         candidata = candidata[0:len(candidata)-1]
-                    if e.key == K_RETURN:
+                    if e.key == K_RETURN and candidata != "":
 
-                        puntos += procesar(candidata, silabasEnPantalla, posiciones, lemario, coloresSilabas)
-                        candidata = ""
-                        e.key=""
+
+                        resp =  procesar(candidata, silabasEnPantalla, posiciones, lemario, coloresSilabas,reproducirSonido)
+                        #puntos += procesar(candidata, silabasEnPantalla, posiciones, lemario, coloresSilabas,reproducirSonido)
+                        if resp != None:
+                            puntos += resp
+                            candidata = ""
+                            e.key=""
+                        else:
+                            return None
+
 
 
             segundos = inicio + TIEMPO_MAX - pygame.time.get_ticks()/1000
-            #segundos = inicio+TIEMPO_MAX - gameClock.get_time()/1000
+
             #Limpiar pantalla anterior
             screen.fill(COLOR_FONDO)
 
             #Dibujar de nuevo todo
-            #print(silabasEnPantalla)
-
-
             dibujar(screen, candidata, silabasEnPantalla, posiciones, puntos, segundos,self.width,self.height,coloresSilabas)
-
             pygame.display.flip()
 
-
-            #actualizar(silabasEnPantalla, posiciones, listaDeSilabas)
-
-            #if last > segundos + .4:
-
             actualizar(silabasEnPantalla, posiciones, listaDeSilabas,width,height,segundos,coloresSilabas)
-            #last = segundos
 
-
-
-
-        #if self.mensajePuntuacion():
-
-            #print(self.pedirNombre())
         listaJugadoresPuntaje.append((puntos,nombre))
-
-        #listaJugadoresPuntaje[nombre] = puntos
         return None
+
         while 1:
-            #print(puntos)
-
-            #Guardar nombre en array
-            #Menu principal
-
-
-            #Esperar el QUIT del usuario
             for e in pygame.event.get():
                 if e.type == QUIT:
                     pygame.quit()
                     sys.exit()
 
-
-
-
-
-
-
-
-class menu:
+class menu: #Objeto Menu -- Contiene todos los menu.. y sus funcionalidades.
 
     def __init__(self, width, height):
         self.listaJugadores = []
@@ -200,7 +164,7 @@ class menu:
         self.flechaUpIMG = pygame.image.load("image/inicio/arrowUp.png")
         self.playerUp = pygame.Rect(floor(25*width/100), floor(53*height/100),floor(6.7*self.width/100), floor(6.9*self.width/100)) #SI UP
         self.flechaUpIMG = pygame.transform.scale(self.flechaUpIMG,(self.playerUp.width,self.playerUp.height))
-
+        pygame.mixer.music.play(-1) #Reproduce la musica infinitas veces.
 
 
         self.quiereSalir = False
@@ -221,6 +185,7 @@ class menu:
     def draw(self, screen):
 
         if (self.principal):
+
             screen.blit(self.menuPrincipal,(0,0))
             self.ren1 = self.defaultFont.render(self.candidata, 1, (0,0,0))
             screen.blit(self.ren1,(floor(27*self.width/100),floor(24.8*self.height/100)))
@@ -292,12 +257,7 @@ class menu:
                     os.system("start \"\" https://github.com/jooherrera/juegoSilabas")
 
             if event.type == pygame.KEYDOWN and self.menuTitle == "principal" and self.quiereSalir == False:
-
-##                    if (circle.collidepoint(mousePos)) :
-##                        os.system("start \"\" https://github.com/jooherrera/juegoSilabas")
                 if event.key == pygame.K_ESCAPE:
-##                    pygame.quit()
-##                    sys.exit()
                     self.quiereSalir = True
                 if event.key == pygame.K_DOWN and self.player.y < floor(62.7*self.height/100):
                     self.click_sound.play()
@@ -309,14 +269,6 @@ class menu:
                     self.menuTitle = "play"
                     self.nombre = True
                     event.key =""
-                    #self.menuPrincipal = self.menuIMG
-
-
-                    #Game(self.width, self.height,screen)
-                    #self.xx = input("Ingreese su nombre")
-
-#run = main(600, 400)
-                    #runGame.run()
                 if event.key == pygame.K_RETURN and self.player.y == floor(42.1*self.height/100): # Options
                     print("Options")
                     self.menuTitle = "opciones"
@@ -369,15 +321,15 @@ class menu:
 
 
             if event.type == pygame.KEYDOWN and self.menuTitle == "nombre" and self.quiereSalir == False:
-                if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN and self.candidata != "":
-                    #self.menuPrincipal = self.menuIMG
-                    #self.menuTitle = "principal"
-                    #self.player.x = floor(29*self.width/100)
-                    #self.player.y = floor(62.7*self.height/100)
+                if event.key == pygame.K_ESCAPE:
+                    self.menuPrincipal = self.menuIMG
+                    self.menuTitle = "principal"
+                    self.player.x = floor(29*self.width/100)
+                    self.player.y = floor(31.9*self.height/100)
+                    self.candidata = ""
 
-                    #self.listaJugadores.append(self.candidata)
-
-                    #print(self.listaJugadores)
+                if  event.key == pygame.K_RETURN and self.candidata != "":
+                    pygame.mixer.music.stop() #Para la musica infinitas veces.
                     Game(self.width, self.height,screen,self.listaJugadoresPuntaje,self.candidata)
                     self.candidata = ""
                     event.key =""
@@ -401,6 +353,7 @@ class menu:
             if event.type == pygame.KEYDOWN and self.menuTitle == "top3" and self.quiereSalir == False :
 
                 if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN :
+                    pygame.mixer.music.play(-1) #Reproduce la musica infinitas veces.
                     print("principal")
                     self.principal = True
                     self.puntaje = False
@@ -411,13 +364,17 @@ class menu:
 
 
             if event.type == pygame.KEYDOWN and self.menuTitle == "opciones" and self.quiereSalir == False:
+                print("Y",self.player.y)
                 if event.key == pygame.K_ESCAPE:
                     self.menuPrincipal = self.menuIMG
                     self.menuTitle = "principal"
                     self.player.x = floor(29*self.width/100)
                     self.player.y = floor(42.1*self.height/100)
-                if event.key == pygame.K_DOWN and self.player.y != floor(67.9*self.height/100):
+                if event.key == pygame.K_DOWN and self.player.y != floor(67.9*self.height/100): #67.9
                     self.click_sound.play()
+
+                    print("dsaads",floor(67.9*self.height/100))
+                    print("dsaads",floor(67.9*self.height/100)+1)
                     self.player.y += floor(10.41*self.height/100)
                 if event.key == pygame.K_UP and self.player.y != floor(37*self.height/100):
                     self.click_sound.play()
@@ -435,15 +392,15 @@ class menu:
 
                 if event.key == pygame.K_RETURN and self.player.y == floor(47.3*self.height/100): #800*600
 
-                    self.width = 800
-                    self.height = 600
+                    self.width = 824
+                    self.height = 601
 
                     #pygame.display.set_mode((600, 400))
                     pygame.display.quit()
                 elif event.key == pygame.K_RETURN and self.player.y == floor(47.3*self.height/100) +1: #800*600 x2
 
-                    self.width = 800
-                    self.height = 600
+                    self.width = 824
+                    self.height = 601
 
                     #pygame.display.set_mode((600, 400))
                     pygame.display.quit()

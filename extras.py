@@ -67,10 +67,10 @@ def dameLetraApretada(key):
 ##    screen.blit(ren, posicion)
 
 def dibujar(screen, candidata, listaNombres, posiciones, puntos, segundos,width,height,coloresSilabas):
-
+    TAMANNO_LETRA = floor(2.5*width/100)
     defaultFont= pygame.font.Font( pygame.font.get_default_font(), TAMANNO_LETRA)
-
-
+    ren0 = defaultFont.render("---->", 1, BLUE)
+    renExit = defaultFont.render("Para salir escriba: exit", 1, RED)
     #Linea del piso
     pygame.draw.line(screen, (255,255,255), (0, height-floor(11.6*height/100)) , (width, height-floor(11.7*height/100)), 5)
 
@@ -84,6 +84,8 @@ def dibujar(screen, candidata, listaNombres, posiciones, puntos, segundos,width,
     for i in range(len(listaNombres)):
         screen.blit(defaultFont.render(listaNombres[i], 1, coloresSilabas[i]), posiciones[i])
 
-    screen.blit(ren1, (floor(23.75*width/100), floor(92*height/100)))#190-570
+    screen.blit(renExit, (floor(5*width/100), floor(92*height/100)))#190-570
+    screen.blit(ren0, (floor(35*width/100), floor(92*height/100)))#190-570
+    screen.blit(ren1, (floor(42*width/100), floor(92*height/100)))#190-570
     screen.blit(ren2, (floor(80*width/100), floor(1.67*height/100)))#680-10
     screen.blit(ren3, (floor(1.25*width/100),floor(1.67*height/100)))#10-10
